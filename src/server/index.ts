@@ -20,12 +20,6 @@ const createServer = async () => {
   return server;
 };
 
-const init = async () => {
-  const server = await createServer();
-  await server.initialize();
-  return server;
-};
-
 const start = async () => {
   const server = await createServer();
   await server.start();
@@ -33,4 +27,4 @@ const start = async () => {
   return server;
 };
 
-export { init, start, };
+export { start, };
