@@ -4,8 +4,12 @@ import sequelize from './models';
 import { contract, handlingEventsDeposit, handlingEventsWithdraw, } from './contract';
 import { handleDepositEvent, handleWithdrawEvent, } from './utils/contract';
 
-const createServer = async () => {
-  const server = Hapi.server({
+const createServer = async (): Promise<any> => {
+  /**
+   * A constant that contains server settings
+   * @returns  {Promise<any>} Server on hapi lib.
+   */
+  const server: { port: string, host: string, } = Hapi.server({
     port: config.server.port,
     host: config.server.host,
   });
@@ -19,11 +23,11 @@ const createServer = async () => {
     console.error('Unable to connect to the database:', error);
   }
 
-  const eventsDeposit = await contract.getPastEvents('Deposit', { fromBlock: 0, toBlock: 'latest' });
-  const resultDeposit = await handlingEventsDeposit(eventsDeposit);
+  const eventsDeposit: Array<any> = await contract.getPastEvents('Deposit', { fromBlock: 0, toBlock: 'latest' });
+  const resultDeposit: string = await handlingEventsDeposit(eventsDeposit);
   console.log(resultDeposit);
 
-  const depositSubscribe = await contract.events.Deposit({
+  const depositSubscribe: any = await contract.events.Deposit({
     fromBlock: 'latest',
     }, 
     async (err, event) => {
@@ -40,11 +44,11 @@ const createServer = async () => {
     console.log(`Subscription event deposit connected, id: ${subscriptionId}`);
   });
 
-  const eventsWithdraw = await contract.getPastEvents('Withdraw', { fromBlock: 0, toBlock: 'latest' });
-  const resultWithdraw = await handlingEventsWithdraw(eventsWithdraw);
+  const eventsWithdraw: Array<any> = await contract.getPastEvents('Withdraw', { fromBlock: 0, toBlock: 'latest' });
+  const resultWithdraw: string = await handlingEventsWithdraw(eventsWithdraw);
   console.log(resultWithdraw);
   
-  const withdrawSubscribe = await contract.events.Withdraw({
+  const withdrawSubscribe: any = await contract.events.Withdraw({
     fromBlock: 'latest',
     }, 
     async (err, event) => {
@@ -65,7 +69,7 @@ const createServer = async () => {
 };
 
 const start = async () => {
-  const server = await createServer();
+  const server: any = await createServer();
   await server.start();
   console.log(`Server running at: ${server.info.uri}`);
   return server;
