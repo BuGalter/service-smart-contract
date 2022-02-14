@@ -7,13 +7,17 @@ import tokenAbi from '../token/token-abi.json';
 import { getTokenList, } from './token';
 
 export async function contractApprove(r) {
+  /**
+   * Handler for route contract/approve.
+   * @param  {request} r - Request object.
+   */
   const { tokenAddress, amount, userPrivateKey, } = r.payload;
-  const tokens = await getTokenList();
+  const tokens:string[] = await getTokenList();
   if (!tokens) {
     return error(404000, 'Tokens not found!', null);
   }
 
-  const accountAddress = await getAccount(userPrivateKey);
+  const accountAddress: string = await getAccount(userPrivateKey);
   if (!accountAddress) {
     return error(404000, 'Account not fount!', null);
   }
@@ -21,8 +25,8 @@ export async function contractApprove(r) {
   if (isTokenInList(tokens, tokenAddress)) {
     try {
       const tokenContract = new web3.eth.Contract(tokenAbi as AbiItem[], tokenAddress);
-      const gasPrice = await getPriceGas();
-      const gasEstimate = await tokenContract.methods.approve(tokenAddress, amount)
+      const gasPrice: string = await getPriceGas();
+      const gasEstimate: number = await tokenContract.methods.approve(tokenAddress, amount)
       .estimateGas({from: accountAddress});
   
       const result = await tokenContract.methods.approve(tokenAddress, amount).send({
@@ -42,21 +46,25 @@ export async function contractApprove(r) {
 }
 
 export async function contractDeposit(r) {
+  /**
+   * Handler for route contract/deposit.
+   * @param  {request} r - Request object.
+   */
   const { tokenAddress, amount, userPrivateKey, } = r.payload;
-  const tokens = await getTokenList();
+  const tokens: string[] = await getTokenList();
   if (!tokens) {
     return error(404000, 'Tokens not found!', null);
   }
 
-  const accountAddress = await getAccount(userPrivateKey);
+  const accountAddress: string = await getAccount(userPrivateKey);
   if (!accountAddress) {
     return error(404000, 'Account not fount!', null);
   }
 
   if (isTokenInList(tokens, tokenAddress)) {
     try {
-      const gasPrice = await getPriceGas();
-      const gasEstimate = await contract.methods.deposit(amount, tokenAddress)
+      const gasPrice: string = await getPriceGas();
+      const gasEstimate: number = await contract.methods.deposit(amount, tokenAddress)
       .estimateGas({from: accountAddress});
   
       const result = await contract.methods.deposit(amount,tokenAddress)
@@ -77,21 +85,25 @@ export async function contractDeposit(r) {
 }
 
 export async function contractWithdraw(r) {
+  /**
+   * Handler for route contract/withdraw.
+   * @param  {request} r - Request object.
+   */
   const { tokenAddress, amount, userPrivateKey, } = r.payload;
   const tokens = await getTokenList();
   if (!tokens) {
     return error(404000, 'Tokens not found!', null);
   }
 
-  const accountAddress = await getAccount(userPrivateKey);
+  const accountAddress: string = await getAccount(userPrivateKey);
   if (!accountAddress) {
     return error(404000, 'Account not fount!', null);
   }
 
   if (isTokenInList(tokens, tokenAddress)) {
     try {
-      const gasPrice = await getPriceGas();
-      const gasEstimate = await contract.methods.withdraw(amount, tokenAddress)
+      const gasPrice: string = await getPriceGas();
+      const gasEstimate: number = await contract.methods.withdraw(amount, tokenAddress)
       .estimateGas({from: accountAddress});
   
       const result = await contract.methods.withdraw(amount,tokenAddress)
