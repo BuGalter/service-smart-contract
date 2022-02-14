@@ -1,4 +1,6 @@
 import { web3, } from "../web3";
+import { AbiItem, } from "web3-utils";
+import tokenAbi from '../token/token-abi.json';
 import { contract, } from "../contract";
 import { output, error,  } from "../utils";
 import { getPriceGas, } from "../utils/contract";
@@ -41,17 +43,13 @@ export async function getTokenInfo(r) {
    * Function to get info about token. Handler for route tokens/{tokenAddress}.
    * @param  {request} r - Request object.
    */
-  let options: {fromBlock: number | string, toBlock: number | string, address: string, } = {
-    fromBlock:  0, 
-    toBlock: 'latest',
-    address: r.params.tokenAddress
-  };
+  const tokenAddress: string = r.params.tokenAddress;
   try {
-    let logs: Array<object> = await web3.eth.getPastLogs(options);
-    if (logs.length === 0) {
-      return output({ message: 'Data not found!', });
-    }
-    return output({ Logs: logs, });  
+    const tokenContract: any = new web3.eth.Contract(tokenAbi as AbiItem[], tokenAddress);
+    const name: string = await tokenContract.methods.name().call();
+    const symbol: string = await tokenContract.methods.symbol().call();
+    const decimals: number = await tokenContract.methods.decimals().call();
+    return output({ name, symbol, decimals, });
   } catch (err) {
     console.log(err);
     return error(400000, 'Incorrect data!', null);
