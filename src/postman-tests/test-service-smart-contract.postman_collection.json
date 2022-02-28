@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "6c981f66-7370-4eb5-bbb9-747a9f6a1309",
+		"name": "test-service-smart-contract",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get-tokens",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/tokens",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-tokens-info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/tokens/0x31Bc1ED55782B80c6941cb32b4b3BBE0F04A613a",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"tokens",
+						"0x31Bc1ED55782B80c6941cb32b4b3BBE0F04A613a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/api/contract/approve",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "tokenAddress",
+							"value": "0x31Bc1ED55782B80c6941cb32b4b3BBE0F04A613a",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "userPrivateKey",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/contract/approve",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"contract",
+						"approve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/api/contract/deposit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "tokenAddress",
+							"value": "0x6F1cB6c43850CF91f311483181DCd2CA8ac75daE",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "userPrivateKey",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/contract/deposit",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"contract",
+						"deposit"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/api/contract/withdraw",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "tokenAddress",
+							"value": "0x6F1cB6c43850CF91f311483181DCd2CA8ac75daE",
+							"type": "text"
+						},
+						{
+							"key": "amount",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "userPrivateKey",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/contract/withdraw",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"contract",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
