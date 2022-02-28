@@ -1,7 +1,43 @@
 import { Acount, } from '../models/Acount';
 import { Wallet, } from '../models/Wallet';
 import { Transaction, } from '../models/Transaction';
+import { web3, } from '../web3';
 import { findByPkDb, createInDb, findOneDb, incremetWallet, decrementWallet } from './db';
+
+export async function getAccount(privateKey: string): Promise<string> {
+  /**
+   * Function find account address on private key.
+   * @param  {string} privateKey - User private key.
+   * @returns {Promise<string>} acconut.address - User account address.
+   */
+  try {
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    web3.eth.accounts.wallet.add(account);
+    return account.address;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function isTokenInList(tokens: string[], token: string): Promise<boolean> {
+  /**
+   * Function to check if there is a token in the contract tokens.
+   * @param  tokens - List contract tokens.
+   * @param  token - Token from request.
+   * @returns {Promise<boolean>} Find token or not.
+   */
+  for (let index = 0; index < tokens.length; index++) {
+    if (token === tokens[index]) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export async function getPriceGas(): Promise<string> {
+  return await web3.eth.getGasPrice();
+}
 
 interface ITransaction {
   transactionHash: string,

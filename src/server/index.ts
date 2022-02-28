@@ -1,6 +1,8 @@
 import * as Hapi from '@hapi/hapi';
+import * as Inert from '@hapi/inert';
 import config from './config/config';
 import sequelize from './models';
+import routes from './routes';
 import { contract, handlingEventsDeposit, handlingEventsWithdraw, } from './contract';
 import { handleDepositEvent, handleWithdrawEvent, } from './utils/contract';
 
@@ -13,6 +15,10 @@ const createServer = async (): Promise<any> => {
     port: config.server.port,
     host: config.server.host,
   });
+
+  await server.register([Inert]);
+  server.realm.modifiers.route.prefix = '/api';
+  server.route(routes);
 
   try {
     await sequelize.sync();
