@@ -39,10 +39,27 @@ export async function getPriceGas(): Promise<string> {
   return await web3.eth.getGasPrice();
 }
 
-export async function handleDepositEvent(event) {
-  let transaction = await findByPkDb(Transaction, event.transactionHash);
+interface ITransaction {
+  transactionHash: string,
+  acountAddress: string,
+  addressToken: string,
+  amount: string,
+};
+
+export interface IsearchOptions {
+  acountAddress: string,
+  tokenAddress: string,
+}
+
+export async function handleDepositEvent(event: any): Promise<string> {
+  /**
+   * Function to handling event deposit.
+   * @param  {any} event - Deposit event.
+   * @returns {Promise<string>} String - Deposit saves or deposit alredy exist.
+   */
+  let transaction: any = await findByPkDb(Transaction, event.transactionHash);
   if (!transaction) {
-    let options = {
+    let options: ITransaction = {
       transactionHash: event.transactionHash,
       acountAddress: event.returnValues.addressOwner,
       addressToken: event.returnValues.addressToken,
@@ -52,19 +69,19 @@ export async function handleDepositEvent(event) {
 
     let account = await findByPkDb(Acount, event.returnValues.addressOwner);
     if (!account) {
-      let options = {
+      let options: { address: string, } = {
         address: event.returnValues.addressOwner,
       };
       await createInDb(Acount, options);
     }
 
-    let searchOptions = {
+    let searchOptions: IsearchOptions = {
       acountAddress: event.returnValues.addressOwner,
       tokenAddress: event.returnValues.addressToken,
      };
     let wallet = await findOneDb(Wallet, searchOptions);
     if (!wallet) {
-      let options = {
+      let options: { tokenAddress: string, acountAddress: string, balans: string} = {
         tokenAddress: event.returnValues.addressToken,
         acountAddress: event.returnValues.addressOwner,
         balans: event.returnValues.amount,
@@ -80,10 +97,15 @@ export async function handleDepositEvent(event) {
   return 'Desosit already exist!';
 };
 
-export async function handleWithdrawEvent(event) {
+export async function handleWithdrawEvent(event: any): Promise<string> {
+  /**
+   * Function to handling event withdraw.
+   * @param  {any} event - Withdraw event.
+   * @returns {Promise<string>} String - Withdraw saves or withdraw alredy exist.
+   */
   let transaction = await findByPkDb(Transaction, event.transactionHash);
   if (!transaction) {
-    let options = {
+    let options: ITransaction = {
       transactionHash: event.transactionHash,
       acountAddress: event.returnValues.acount,
       addressToken: event.returnValues.token,
@@ -92,11 +114,11 @@ export async function handleWithdrawEvent(event) {
 
     await createInDb(Transaction, options);
 
-    let searchOptions = {
+    let searchOptions: IsearchOptions = {
       acountAddress: event.returnValues.account,
       tokenAddress: event.returnValues.token,
     };
-    let wallet = await findOneDb(Wallet, searchOptions);
+    let wallet: any = await findOneDb(Wallet, searchOptions);
     if (!wallet) {
       return 'Wallet don`t exists in database!'
     }
